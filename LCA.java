@@ -1,8 +1,6 @@
 import java.util.*;
 
 class LCA {
-    // ListNode root;
-
     static class ListNode{
         Integer value;
         ListNode left,right;
@@ -14,20 +12,6 @@ class LCA {
         newNode.right = null;
 
         return newNode;
-    }
-    static ListNode constructBst(List<Integer> levelOrderBST, int numOfElements){
-        if (numOfElements == 0)
-            return null;
-            
-        ListNode root = null;
-    
-        for(int i = 0; i < numOfElements; i++){
-            if(levelOrderBST.get(i)!=null)
-            root = LevelOrder(root, levelOrderBST.get(i));
-        }
-            
-    
-        return root;
     }
 
     static ListNode LevelOrder(ListNode root, Integer value){
@@ -43,19 +27,31 @@ class LCA {
         return root;
     }
 
+    static ListNode constructBst(List<Integer> levelOrderBST, int numOfElements){
+        if (numOfElements == 0) 
+            return null; 
+            
+        ListNode root = null;
+    
+        for(int i = 0; i < numOfElements; i++){
+            if(levelOrderBST.get(i)!=null)
+            root = LevelOrder(root, levelOrderBST.get(i)); //call LevelOrder for each element which is not null and place it in the BST
+        }
+        return root;
+    }
 
-    static ListNode lca(ListNode node, int p, int q)
-    {
+
+    static ListNode lca(ListNode node, int p, int q){
         if (node == null)
             return null;
 
         if (node.value > p && node.value > q)
-            return lca(node.left, p, q);
+            return lca(node.left, p, q); //if both p and q are on one side of the current node, current node cant be the LCA
 
         if (node.value < p && node.value < q)
             return lca(node.right, p, q);
  
-        return node;
+        return node; //if the p and q are on two different sides of the current node then then node is LCA
     }
 
 
@@ -64,9 +60,9 @@ class LCA {
     public static void main(String args[]){
         Scanner sc = new Scanner(System.in);
         List<Integer> levelOrderBST = new ArrayList<>();
-        int numOfElements = Integer.parseInt(sc.nextLine());
+        int numOfElements = Integer.parseInt(sc.nextLine()); //Enter num of elements
         String input;
-        for(int i=0;i<numOfElements;i++){
+        for(int i=0;i<numOfElements;i++){ //Enter each element in one line each and leave line empty for null
             input = sc.nextLine();
             if(input.isEmpty()){
                 levelOrderBST.add(null);
@@ -78,8 +74,10 @@ class LCA {
         int p = sc.nextInt();
         int q = sc.nextInt();
         ListNode lcaNode = lca(root, p, q);
-        System.out.println(lcaNode.value);
- 
-       
+        if(lcaNode!=null){
+            System.out.println(lcaNode.value);
+        }else{
+            System.out.println("p and q not present");
+        }
     }
 }

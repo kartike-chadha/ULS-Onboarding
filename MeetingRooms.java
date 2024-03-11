@@ -10,15 +10,16 @@ public class MeetingRooms {
             } else {
                 return a.get(1).compareTo(b.get(1));
             }
-        });
-        int lastMeetingEnd = meetings.get(0).get(1);
+        }); //sort meetings in increasing order of meetStart and meetEnd
+        int lastMeetingEnd = -1;
         boolean ans = true;
         for(List<Integer> meet:meetings){
-            if(lastMeetingEnd >meet.get(1)){
+            if(lastMeetingEnd >meet.get(0)){ // if the lastMeetingEnd is greater than current meeting start time then we cant attend all meetings
+                System.out.println(lastMeetingEnd+ " "+meet.get(0));
                 ans = false;
                 break;
             }
-            lastMeetingEnd = meet.get(1);
+            lastMeetingEnd = meet.get(1); //update lastMeetingEnd
         }
         return ans;
     }
@@ -28,7 +29,6 @@ public class MeetingRooms {
         int totalMeets = sc.nextInt();
         List<List<Integer>> meetings = new ArrayList<List<Integer>>();
         for(int i=0;i<totalMeets;i++){
-            System.out.println("check");
             int meetStart = sc.nextInt();
             int meetEnd = sc.nextInt();
             meetings.add(Arrays.asList(meetStart,meetEnd));
